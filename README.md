@@ -16,6 +16,19 @@ TEAM NAME : INHACONTROL616
 2. Install MATLAB Add-Ons; Image Processing Toobox, MATLAB Support Package for Ryze Tello Drones.
 3. locate the code (.m file) in the path you want, and find the .m file on MATLAB.
 
+### 대회 진행 전략
+
+
+
+### 알고리즘 설명
+
+1. 드론 이륙
+
+2. 
+
+
+### 소스 코드 설명
+
 
 
 

@@ -72,21 +72,21 @@
 
 다음은 우리 팀이 대회 미션 수행을 위해 작성한 MATLAB 코드입니다.
 
-%% (0) 초기 변수 선언
-clear;
-clc;
-aa=ryze(); % 드론 객체 선언
-cam=camera(aa); % 카메라 객체 선언
-preview(cam); % 드론 카메라 모니터링
+    %% (0) 초기 변수 선언
+    clear;
+    clc;
+    aa=ryze(); % 드론 객체 선언
+    cam=camera(aa); % 카메라 객체 선언
+    preview(cam); % 드론 카메라 모니터링
 
-%% (1) 이륙
-takeoff(aa);
-disp("takeoff");
-moveforward(aa, 'Distance', 0.3, 'WaitUntilDone', true);
-pause(1);
+    %% (1) 이륙
+    takeoff(aa);
+    disp("takeoff");
+    moveforward(aa, 'Distance', 0.3, 'WaitUntilDone', true);
+    pause(1);
 
-%% (2) 초록색 탐색
-while 1
+    %% (2) 초록색 탐색
+    while 1
     % 초록색 박스 안의 중앙 점을 출력하는 함수
     frame=snapshot(cam);
     hsv=rgb2hsv(frame);
@@ -107,8 +107,7 @@ while 1
          hold off
     end
 
-
-    % 중앙 점을 따라가는 함수
+    %% 중앙 점을 따라가는 함수
 
     if YgreenCenter < 325
         moveup(aa, 0.5);
@@ -134,199 +133,197 @@ while 1
     
     clear XgreenCenter;
     clear YgreenCenter;
-end
-% (3) 전진하기 전 드론을 아래로 이동시킴
-movedown(aa, 'Distance', 0.3, 'WaitUntilDone', true);
-disp("gothrough");
-
-% (4) 드론을 중앙에 맞췄으므로 2.4m 전진
-moveforward(aa, 'Distance', 2.2);
-
-%% (5) 빨간색 탐색
-while 1
-    frame=snapshot(cam);
-    %pause(2);
-
-    hsv=rgb2hsv(frame);
-    h=hsv(:,:,1);
-    detect_red=(h>1)+(h<0.05);
-
-    if sum(detect_red, 'all')>=13000 % 빨간 픽셀의 개수 = 13000
-        % 빨간색 검출하면 정지
-        break
-    else
-        % 빨간색을 검출하지 못하면 상승
-        moveup(aa, 0.5);
-        disp("up");
     end
-end
+    % (3) 전진하기 전 드론을 아래로 이동시킴
+    movedown(aa, 'Distance', 0.3, 'WaitUntilDone', true);
+    disp("gothrough");
 
-% (6) 왼쪽으로 90도 회전
-turn(aa,deg2rad(-90));
-disp("turn");
-moveforward(aa, 'Distance', 0.5);
-pause(1);
+    % (4) 드론을 중앙에 맞췄으므로 2.4m 전진
+    moveforward(aa, 'Distance', 2.2);
 
-%% (7) 두 번째 초록색 탐색
-while 1
-    % 초록색 박스 안의 중앙 점을 출력하는 함수
-    frame=snapshot(cam);
-    hsv=rgb2hsv(frame);
-    green_den=hsv(:,:,1);
-    detect_green=(0.325<green_den)&(green_den<0.375);
-    [row, col] = find(detect_green);
-    if ~isempty(row) && ~isempty(col)
-        XgreenCenter = round(mean(col));
-        YgreenCenter = round(mean(row));
-         subplot(1,2,1); imshow(frame);
-         hold on 
-         plot(XgreenCenter,YgreenCenter,'ro','MarkerSize',10,'MarkerFaceColor','r')
-         hold off
-         subplot(1,2,2); imshow(detect_green);
-         hold on;
-         plot(XgreenCenter,YgreenCenter,'r*','MarkerSize',10,'MarkerFaceColor','r')
-         drawnow;
-         hold off
-    end
+    %% (5) 빨간색 탐색
+    while 1
+        frame=snapshot(cam);
+        %pause(2);
 
+        hsv=rgb2hsv(frame);
+        h=hsv(:,:,1);
+        detect_red=(h>1)+(h<0.05);
 
-    % 중앙 점을 따라가는 함수
-
-    if YgreenCenter < 325
-        moveup(aa, 0.5);
-        pause(1);
-        disp("moveup");
-    elseif YgreenCenter > 395
-        movedown(aa, 0.5);
-        pause(1);
-        disp("movedown");
-    else
-        if XgreenCenter < 430
-            moveleft(aa, 0.5);
-            pause(1);
-            disp("moveleft");
-        elseif XgreenCenter > 530
-            moveright(aa, 0.5);
-            pause(1);
-            disp("moveright");
+        if sum(detect_red, 'all')>=13000 % 빨간 픽셀의 개수 = 13000
+            % 빨간색 검출하면 정지
+            break
         else
-            break;
+            % 빨간색을 검출하지 못하면 상승
+            moveup(aa, 0.5);
+            disp("up");
         end
     end
-    
-    clear XgreenCenter;
-    clear YgreenCenter;
-end
-% (8) 전진하기 전 드론을 아래로 이동시킴
-movedown(aa, 'Distance', 0.3, 'WaitUntilDone', true);
-disp("gothrough");
 
-% (9) 드론을 중앙에 맞췄으므로 2.4m 전진
-moveforward(aa, 'Distance', 2.1);
-    
-%% (10) 두 번째 빨간색 탐색
-while 1
-    frame=snapshot(cam);
-    %pause(2);
+    % (6) 왼쪽으로 90도 회전
+    turn(aa,deg2rad(-90));
+    disp("turn");
+    moveforward(aa, 'Distance', 0.5);
+    pause(1);
 
-    hsv=rgb2hsv(frame);
-    h=hsv(:,:,1);
-    detect_red=(h>1)+(h<0.05);
-
-    if sum(detect_red, 'all')>=13000 % 빨간 픽셀의 개수 = 13000
-        % 빨간색 검출하면 정지
-        break
-    else
-        % 빨간색을 검출하지 못하면 상승
-        moveup(aa, 0.5);
-        disp("up");
-    end
-end
-
-% (11) 왼쪽으로 90도 회전
-turn(aa,deg2rad(-90));
-disp("turn");
-pause(1);
-
-%% (13) 세 번째 초록색 탐색
-while 1
-    % 초록색 박스 안의 중앙 점을 출력하는 함수
-    frame=snapshot(cam);
-    hsv=rgb2hsv(frame);
-    green_den=hsv(:,:,1);
-    detect_green=(0.325<green_den)&(green_den<0.375);
-    [row, col] = find(detect_green);
-    if ~isempty(row) && ~isempty(col)
-        XgreenCenter = round(mean(col));
-        YgreenCenter = round(mean(row));
-         subplot(1,2,1); imshow(frame);
-         hold on 
-         plot(XgreenCenter,YgreenCenter,'ro','MarkerSize',10,'MarkerFaceColor','r')
-         hold off
-         subplot(1,2,2); imshow(detect_green);
-         hold on;
-         plot(XgreenCenter,YgreenCenter,'r*','MarkerSize',10,'MarkerFaceColor','r')
-         drawnow;
-         hold off
-    end
+    %% (7) 두 번째 초록색 탐색
+    while 1
+        % 초록색 박스 안의 중앙 점을 출력하는 함수
+        frame=snapshot(cam);
+        hsv=rgb2hsv(frame);
+        green_den=hsv(:,:,1);
+        detect_green=(0.325<green_den)&(green_den<0.375);
+        [row, col] = find(detect_green);
+        if ~isempty(row) && ~isempty(col)
+            XgreenCenter = round(mean(col));
+            YgreenCenter = round(mean(row));
+             subplot(1,2,1); imshow(frame);
+             hold on 
+             plot(XgreenCenter,YgreenCenter,'ro','MarkerSize',10,'MarkerFaceColor','r')
+             hold off
+             subplot(1,2,2); imshow(detect_green);
+             hold on;
+             plot(XgreenCenter,YgreenCenter,'r*','MarkerSize',10,'MarkerFaceColor','r')
+             drawnow;
+             hold off
+        end
 
 
-    % 중앙 점을 따라가는 함수
+        % 중앙 점을 따라가는 함수
 
-    if YgreenCenter < 325
-        moveup(aa, 0.5);
-        pause(1);
-        disp("moveup");
-    elseif YgreenCenter > 395
-        movedown(aa, 0.5);
-        pause(1);
-        disp("movedown");
-    else
-        if XgreenCenter < 430
-            moveleft(aa, 0.5);
+        if YgreenCenter < 325
+            moveup(aa, 0.5);
             pause(1);
-            disp("moveleft");
-        elseif XgreenCenter > 530
-            moveright(aa, 0.5);
+            disp("moveup");
+        elseif YgreenCenter > 395
+            movedown(aa, 0.5);
             pause(1);
-            disp("moveright");
+            disp("movedown");
         else
-            break;
+            if XgreenCenter < 430
+                moveleft(aa, 0.5);
+                pause(1);
+                disp("moveleft");
+            elseif XgreenCenter > 530
+                moveright(aa, 0.5);
+                pause(1);
+                disp("moveright");
+            else
+                break;
+            end
+        end
+    
+        clear XgreenCenter;
+        clear YgreenCenter;
+    end
+    % (8) 전진하기 전 드론을 아래로 이동시킴
+    movedown(aa, 'Distance', 0.3, 'WaitUntilDone', true);
+    disp("gothrough");
+
+    % (9) 드론을 중앙에 맞췄으므로 2.4m 전진
+    moveforward(aa, 'Distance', 2.1);
+    
+    %% (10) 두 번째 빨간색 탐색
+    while 1
+       frame=snapshot(cam);
+       hsv=rgb2hsv(frame);
+       h=hsv(:,:,1);
+       detect_red=(h>1)+(h<0.05);
+
+        if sum(detect_red, 'all')>=13000 % 빨간 픽셀의 개수 = 13000
+            % 빨간색 검출하면 정지
+            break
+        else
+            % 빨간색을 검출하지 못하면 상승
+            moveup(aa, 0.5);
+            disp("up");
         end
     end
-    
-    clear XgreenCenter;
-    clear YgreenCenter;
-end
-% (14) 전진하기 전 드론을 아래로 이동시킴
-movedown(aa, 'Distance', 0.3, 'WaitUntilDone', true);
-disp("gothrough");
 
-% (15) 드론을 중앙에 맞췄으므로 2.4m 전진
-moveforward(aa, 'Distance', 2.4);
+    % (11) 왼쪽으로 90도 회전
+    turn(aa,deg2rad(-90));
+    disp("turn");
+    pause(1);
 
-%% (16) 파란색 탐색
-while 1
-    frame=snapshot(cam);
-    pause(2);
-
-    hsv=rgb2hsv(frame);
-    h=hsv(:,:,1);
-    detect_blue=(0.575<h)&(h<0.625);
-
-    if sum(detect_blue, 'all')>=15000 % 파란 픽셀의 개수 = 15000
-        % 파란색 검출하면 정지
-        break
-    else
-        % 파란색을 검출하지 못하면 상승
-        moveup(aa, 0.5);
-        disp("up");
+    % (13) 세 번째 초록색 탐색
+    while 1
+        % 초록색 박스 안의 중앙 점을 출력하는 함수
+       frame=snapshot(cam);
+        hsv=rgb2hsv(frame);
+        green_den=hsv(:,:,1);
+        detect_green=(0.325<green_den)&(green_den<0.375);
+        [row, col] = find(detect_green);
+        if ~isempty(row) && ~isempty(col)
+            XgreenCenter = round(mean(col));
+            YgreenCenter = round(mean(row));
+            subplot(1,2,1); imshow(frame);
+            hold on 
+            plot(XgreenCenter,YgreenCenter,'ro','MarkerSize',10,'MarkerFaceColor','r')
+            hold off
+            subplot(1,2,2); imshow(detect_green);
+            hold on;
+            plot(XgreenCenter,YgreenCenter,'r*','MarkerSize',10,'MarkerFaceColor','r')
+            drawnow;
+            hold off
     end
-end
 
-%% (17) 착륙
-land(aa);
-disp("land");
+
+        % 중앙 점을 따라가는 함수
+
+        if YgreenCenter < 325
+            moveup(aa, 0.5);
+            pause(1);
+            disp("moveup");
+        elseif YgreenCenter > 395
+            movedown(aa, 0.5);
+            pause(1);
+            disp("movedown");
+        else
+            if XgreenCenter < 430
+                moveleft(aa, 0.5);
+                pause(1);
+                disp("moveleft");
+            elseif XgreenCenter > 530
+                moveright(aa, 0.5);
+                pause(1);
+                disp("moveright");
+            else
+                break;
+            end
+        end
+    
+        clear XgreenCenter;
+        clear YgreenCenter;
+    end
+    
+    
+    % (14) 전진하기 전 드론을 아래로 이동시킴
+    movedown(aa, 'Distance', 0.3, 'WaitUntilDone', true);
+    disp("gothrough");
+
+    % (15) 드론을 중앙에 맞췄으므로 2.4m 전진
+    moveforward(aa, 'Distance', 2.4);
+
+    % (16) 파란색 탐색
+    while 1
+        frame=snapshot(cam);
+        pause(2);
+
+        hsv=rgb2hsv(frame);
+        h=hsv(:,:,1);
+        detect_blue=(0.575<h)&(h<0.625);
+
+        if sum(detect_blue, 'all')>=15000 % 파란 픽셀의 개수 = 15000
+            break % 파란색 검출하면 정지
+        else
+            moveup(aa, 0.5); % 파란색을 검출하지 못하면 상승
+            disp("up");
+        end
+    end
+
+    % (17) 착륙
+    land(aa);
+    disp("land");
  
 
 

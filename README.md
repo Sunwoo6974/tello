@@ -39,11 +39,12 @@
 ![map3](https://user-images.githubusercontent.com/60594155/87538795-cd214780-c6d7-11ea-844a-837fd51c0472.jpeg)
 ![map4](https://user-images.githubusercontent.com/60594155/87538803-ceeb0b00-c6d7-11ea-8108-0e3f9af14c85.jpeg)
 
-### 3. 알고리즘 계획 미 MATLAB 코드 작성
+### 3. 알고리즘 계획 및 MATLAB 코드 작성
 
   하단의 '알고리즘 설명', '소스 코드 설명' 탭에서 기술합니다.
   
-### 4. MATLAB 코드르 바탕을 실제 Ryze Tello 드론에 적용 및 미션 수행 연습
+### 4. MATLAB 코드를 바탕으로 실제 Ryze Tello 드론에 적용 및 미션 수행 연습
+
 
 
   

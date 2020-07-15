@@ -1,4 +1,4 @@
-# TelloforCompetition
+# TellofCompetition
 
 My MATLAB® codes for Ryze Tello drone.
 This repo is made for 2020 Mini Drone Competition - Supported by Mathworks® Korea.

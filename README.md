@@ -37,6 +37,11 @@ TEAM NAME : INHACONTROL616
   
   다음은 규격에 따라 제작한 맵의 사진이다.
   
+![map1](https://user-images.githubusercontent.com/60594155/87538779-c7c3fd00-c6d7-11ea-8fc7-c2614d0e8b9e.jpeg)
+![map2](https://user-images.githubusercontent.com/60594155/87538790-cb578400-c6d7-11ea-89ee-f75fae17e2a9.jpeg)
+![map3](https://user-images.githubusercontent.com/60594155/87538795-cd214780-c6d7-11ea-844a-837fd51c0472.jpeg)
+![map4](https://user-images.githubusercontent.com/60594155/87538803-ceeb0b00-c6d7-11ea-8108-0e3f9af14c85.jpeg)
+  
   
 
 
